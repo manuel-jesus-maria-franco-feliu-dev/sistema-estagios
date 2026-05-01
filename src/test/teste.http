@@ -1,9 +1,1 @@
-POST http://localhost:8080/usuarios
-Content-Type: application/json
-
-{
-  "nome": "Manuela Franco Augusto",
-  "email": "manuela@email.com",
-  "senha": "654321",
-  "perfil": "ALUNO"
-}
+GET http://localhost:8080/usuarios
