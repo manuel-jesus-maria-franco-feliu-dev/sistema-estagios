@@ -29,8 +29,22 @@ public class UsuarioController {
     //BUSCAR USUARIOS
 
     @GetMapping("/{id}")
-    public Usuario buscarPorId(@PathVariable Long id){
+    public Usuario buscarPorId(@PathVariable Long id) {
         return usuarioRepository.findById(id).orElse(null);
     }
+
+    //DELETAR USUARIOS
+    @DeleteMapping("/{id}")
+        public void deletarUsuario(@PathVariable Long id){
+            usuarioRepository.deleteById(id);
+    }
+
+    //ATUALIZAR USUARIOS
+    @PutMapping("/{id}")
+    public Usuario atualizarUsuario(@PathVariable Long id, @RequestBody Usuario usuario){
+        usuario.setId(id);
+        return usuarioRepository.save(usuario);
+    }
+
 
 }
