@@ -15,13 +15,23 @@ public class UsuarioController {
         this.usuarioRepository = usuarioRepository;
     }
 
-    // CRIAR USUÁRIO (POST)
+    // CRIAR USUARIO (POST) - COM VALIDAÇÃO COMPLETA
     @PostMapping
     public Usuario criarUsuario(@RequestBody Usuario usuario) {
-        // VALIDAÇÕES DE USUARIO E SENHA
+
+        //VALIDAÇÃO DO NOME
+
+        if(usuario.getNome()== null || usuario.getNome().trim().isEmpty()){
+            throw new RuntimeException("Nome é obrigatório");
+        }
+
+        //VALIDAÇÃO DA SENHA
+
         if (usuario.getSenha() == null || usuario.getSenha().length() < 8) {
             throw new RuntimeException("Senha deve ter no mínimo 8 caracteres");
         }
+
+        //VALIDAÇÃO DO EMAIL
 
         if (usuario.getEmail() == null || !usuario.getEmail().contains("@")) {
             throw new RuntimeException("Email inválido");

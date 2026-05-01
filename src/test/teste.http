@@ -1,1 +1,9 @@
-DELETE http://localhost:8080/usuarios/4
+POST http://localhost:8080/usuarios
+Content-Type: application/json
+
+{
+  "nome": "Nabucodonosor",
+  "email":"mfrancof@gmail.com",
+  "perfil":"ALUNO",
+  "senha": "lololele"
+}
