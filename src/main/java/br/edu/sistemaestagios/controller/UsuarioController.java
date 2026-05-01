@@ -10,41 +10,49 @@ import java.util.List;
 @RequestMapping("/usuarios")
 public class UsuarioController {
     private final UsuarioRepository usuarioRepository;
+
     public UsuarioController(UsuarioRepository usuarioRepository) {
         this.usuarioRepository = usuarioRepository;
     }
-    //CRIAR ARQUIVO DE USUARIOS
 
+    // CRIAR USUÁRIO (POST)
     @PostMapping
     public Usuario criarUsuario(@RequestBody Usuario usuario) {
+        // VALIDAÇÕES DE USUARIO E SENHA
+        if (usuario.getSenha() == null || usuario.getSenha().length() < 8) {
+            throw new RuntimeException("Senha deve ter no mínimo 8 caracteres");
+        }
+
+        if (usuario.getEmail() == null || !usuario.getEmail().contains("@")) {
+            throw new RuntimeException("Email inválido");
+        }
+
         usuario.setAtivo(true);
         return usuarioRepository.save(usuario);
     }
-    //LISTAR TODOS OS USUARIOS
+
+    // LISTAR TODOS OS USUARIOS (GET)
     @GetMapping
     public List<Usuario> listarUsuarios() {
         return usuarioRepository.findAll();
     }
 
-    //BUSCAR USUARIOS
-
+    // BUSCAR USUARIOS (GET)
     @GetMapping("/{id}")
     public Usuario buscarPorId(@PathVariable Long id) {
         return usuarioRepository.findById(id).orElse(null);
     }
 
-    //DELETAR USUARIOS
+    // DELETAR USUARIOS (DELETE)
     @DeleteMapping("/{id}")
-        public void deletarUsuario(@PathVariable Long id){
-            usuarioRepository.deleteById(id);
+    public void deletarUsuario(@PathVariable Long id) {
+        usuarioRepository.deleteById(id);
     }
 
-    //ATUALIZAR USUARIOS
+    // ATUALIZAR USUARIOS (PUT)
     @PutMapping("/{id}")
-    public Usuario atualizarUsuario(@PathVariable Long id, @RequestBody Usuario usuario){
+    public Usuario atualizarUsuario(@PathVariable Long id, @RequestBody Usuario usuario) {
         usuario.setId(id);
         return usuarioRepository.save(usuario);
     }
-
-
 }
