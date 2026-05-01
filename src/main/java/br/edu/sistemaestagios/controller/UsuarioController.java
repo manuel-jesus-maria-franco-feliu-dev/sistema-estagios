@@ -1,4 +1,4 @@
-package br.edu.sistemaestagios.sistemaestagios.controller;
+package br.edu.sistemaestagios.controller;
 
 import br.edu.sistemaestagios.model.Usuario;
 import br.edu.sistemaestagios.repository.UsuarioRepository;
@@ -25,4 +25,12 @@ public class UsuarioController {
     public List<Usuario> listarUsuarios() {
         return usuarioRepository.findAll();
     }
+
+    //BUSCAR USUARIOS
+
+    @GetMapping("/{id}")
+    public Usuario buscarPorId(@PathVariable Long id){
+        return usuarioRepository.findById(id).orElse(null);
+    }
+
 }
