@@ -3,6 +3,8 @@ package br.edu.sistemaestagios.controller;
 import br.edu.sistemaestagios.model.Usuario;
 import br.edu.sistemaestagios.repository.UsuarioRepository;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
+
 
 import java.util.List;
 
@@ -17,7 +19,7 @@ public class UsuarioController {
 
     // CRIAR USUARIO (POST) - COM VALIDAÇÃO COMPLETA
     @PostMapping
-    public Usuario criarUsuario(@RequestBody Usuario usuario) {
+    public Usuario criarUsuario(@Valid @RequestBody Usuario usuario) {
 
         //VALIDAÇÃO DO NOME
 

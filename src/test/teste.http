@@ -2,8 +2,8 @@ POST http://localhost:8080/usuarios
 Content-Type: application/json
 
 {
-  "nome": "Nabucodonosor",
-  "email":"mfrancof@gmail.com",
-  "perfil":"ALUNO",
-  "senha": "lololele"
+"nome": "Martin Samuel Franco Feliu",
+"email": "anjinhomeu@filhodeus.com",
+"perfil": "ALUNO",
+"senha": "Meu AnjinhoVidaToda"
 }
