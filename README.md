@@ -201,7 +201,8 @@ spring.jpa.show-sql=true
 ## Rodar a classe principal:
 
 SistemaEstagiosApplication
-📚 Objetivos Acadêmicos
+
+# 📚 Objetivos Acadêmicos
 
 ## Este projeto tem como finalidade aplicar na prática conceitos estudados durante o curso, como:
 
