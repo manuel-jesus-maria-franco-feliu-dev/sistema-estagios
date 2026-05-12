@@ -4,8 +4,6 @@ import br.edu.sistemaestagios.model.Usuario;
 import br.edu.sistemaestagios.repository.UsuarioRepository;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
-
-
 import java.util.List;
 
 @RestController

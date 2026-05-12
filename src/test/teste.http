@@ -1,9 +1,0 @@
-POST http://localhost:8080/usuarios
-Content-Type: application/json
-
-{
-"nome": "Martin Samuel Franco Feliu",
-"email": "anjinhomeu@filhodeus.com",
-"perfil": "ALUNO",
-"senha": "Meu AnjinhoVidaToda"
-}

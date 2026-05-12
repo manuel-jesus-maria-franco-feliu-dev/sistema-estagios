@@ -1,0 +1,9 @@
+POST http://localhost:8080/usuarios
+Content-Type: application/json
+
+{
+  "nome": "Maria del Rosario Queiroz",
+  "email": "maria@email.com",
+  "senha": "SenhaMuitoForte123",
+  "perfil": "ALUNO"
+}

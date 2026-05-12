@@ -1,10 +1,6 @@
 package br.edu.sistemaestagios.model;
-
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+
 
 
 @Entity
@@ -13,23 +9,14 @@ public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @NotBlank(message = "Nome é obrigatório")
     private String nome;
-
-    @NotBlank(message = "Email é obrigatório")
-    @Email(message = "Email inválido")
     private String email;
-
-    @NotBlank(message = "Senha é obrigatória")
-    @Size(min = 13, message = "Senha deve ter no mínimo 13 caracteres")
     private String senha;
 
-    @NotNull(message = "Perfil é obrigatório")
+
     @Enumerated(EnumType.STRING)
 
     private Perfil perfil;
-
     private Boolean ativo;
 
     public Long getId() {
