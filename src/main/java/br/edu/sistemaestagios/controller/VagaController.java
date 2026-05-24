@@ -33,6 +33,18 @@ public class VagaController {
         return vagaService.buscarPorId(id);
     }
 
+    @PutMapping("/{id}")
+    public Vaga atualizar(
+            @PathVariable Long id,
+            @RequestBody Vaga vaga
+    ) {
+
+        vaga.setId(id);
+
+        return vagaService.salvar(vaga);
+
+    }
+
     @DeleteMapping("/{id}")
     public void deletar(@PathVariable Long id) {
         vagaService.deletar(id);

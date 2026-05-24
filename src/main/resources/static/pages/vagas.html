@@ -2,6 +2,7 @@
 <html lang="pt-BR">
 
 <head>
+
     <meta charset="UTF-8">
 
     <meta name="viewport"
@@ -16,6 +17,7 @@
     <!-- CSS -->
     <link rel="stylesheet"
           href="../assets/css/style.css">
+
 </head>
 
 <body>
@@ -38,17 +40,23 @@
 
                 <a href="dashboard.html"
                    class="btn btn-outline-primary">
+
                     Dashboard
+
                 </a>
 
                 <a href="#"
                    class="btn btn-outline-secondary">
+
                     Usuários
+
                 </a>
 
                 <a href="vagas.html"
                    class="btn btn-success">
+
                     Vagas
+
                 </a>
 
             </div>
@@ -72,93 +80,96 @@
 
                 </button>
 
-                <!-- MODAL -->
-                <div class="modal fade"
-                     id="modalVaga"
-                     tabindex="-1">
+            </div>
 
-                    <div class="modal-dialog">
+            <!-- MODAL -->
+            <div class="modal fade"
+                 id="modalVaga"
+                 tabindex="-1"
+                 aria-hidden="true">
 
-                        <div class="modal-content">
+                <div class="modal-dialog">
 
-                            <div class="modal-header">
+                    <div class="modal-content">
 
-                                <h5 class="modal-title">
-                                    Cadastro de Vaga
-                                </h5>
+                        <div class="modal-header">
 
-                                <button type="button"
-                                        class="btn-close"
-                                        data-bs-dismiss="modal">
+                            <h5 class="modal-title">
+                                Cadastro de Vaga
+                            </h5>
+
+                            <button type="button"
+                                    class="btn-close"
+                                    data-bs-dismiss="modal"
+                                    aria-label="Close">
+                            </button>
+
+                        </div>
+
+                        <div class="modal-body">
+
+                            <form id="formVaga">
+                                <input type="hidden" id="vagaId"
+
+                                <div class="mb-3">
+
+                                    <label class="form-label">
+                                        Título
+                                    </label>
+
+                                    <input type="text"
+                                           id="titulo"
+                                           class="form-control"
+                                           required>
+
+                                </div>
+
+                                <div class="mb-3">
+
+                                    <label class="form-label">
+                                        Empresa
+                                    </label>
+
+                                    <input type="text"
+                                           id="empresa"
+                                           class="form-control"
+                                           required>
+
+                                </div>
+
+                                <div class="mb-3">
+
+                                    <label class="form-label">
+                                        Descrição
+                                    </label>
+
+                                    <textarea id="descricao"
+                                              class="form-control"
+                                              rows="3"></textarea>
+
+                                </div>
+
+                                <div class="mb-3">
+
+                                    <label class="form-label">
+                                        Carga Horária
+                                    </label>
+
+                                    <input type="number"
+                                           id="cargaHoraria"
+                                           class="form-control"
+                                           required>
+
+                                </div>
+
+                                <button type="submit"
+                                        class="btn btn-primary w-100">
+
+                                    Salvar Vaga
+
                                 </button>
 
-                            </div>
-
-                            <div class="modal-body">
-
-                                <form id="formVaga">
-
-                                    <div class="mb-3">
-
-                                        <label class="form-label">
-                                            Título
-                                        </label>
-
-                                        <input type="text"
-                                               id="titulo"
-                                               class="form-control"
-                                               required>
-
-                                    </div>
-
-                                    <div class="mb-3">
-
-                                        <label class="form-label">
-                                            Empresa
-                                        </label>
-
-                                        <input type="text"
-                                               id="empresa"
-                                               class="form-control"
-                                               required>
-
-                                    </div>
-
-                                    <div class="mb-3">
-
-                                        <label class="form-label">
-                                            Descrição
-                                        </label>
-
-                                        <textarea id="descricao"
-                                                  class="form-control">
-                        </textarea>
-
-                                    </div>
-
-                                    <div class="mb-3">
-
-                                        <label class="form-label">
-                                            Carga Horária
-                                        </label>
-
-                                        <input type="number"
-                                               id="cargaHoraria"
-                                               class="form-control"
-                                               required>
-
-                                    </div>
-
-                                    <button type="submit"
-                                            class="btn btn-primary w-100">
-
-                                        Salvar Vaga
-
-                                    </button>
-
-                                </form>
-
-                            </div>
+                            </form>
 
                         </div>
 
@@ -173,16 +184,19 @@
 
                 <div class="card-body">
 
-                    <table class="table table-hover">
+                    <table class="table table-hover align-middle">
 
                         <thead class="table-dark">
 
                         <tr>
+
                             <th>ID</th>
                             <th>Título</th>
                             <th>Empresa</th>
                             <th>Carga Horária</th>
                             <th>Status</th>
+                            <th>Ações</th>
+
                         </tr>
 
                         </thead>

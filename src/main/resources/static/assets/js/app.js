@@ -1,5 +1,5 @@
 //
-// COMPONENTES
+// CRIAÇÃO DO COMPONENTE PARA INJETAR CABEÇALHO E RODAPÉ NAS PÁGINAS
 //
 
 fetch("../components/navbar.html")
@@ -19,7 +19,7 @@ fetch("../components/footer.html")
 // DASHBOARD
 //
 
-async function carregarTotais() {
+async function carregarTotais() { //Permissão para esperar respostas da API
 
     try {
 
@@ -28,18 +28,18 @@ async function carregarTotais() {
             await fetch("http://localhost:8080/usuarios");
 
         const usuarios =
-            await responseUsuarios.json();
+            await responseUsuarios.json(); 
 
         document.getElementById("totalUsuarios")
-            .innerText = usuarios.length;
+            .innerText = usuarios.length; //Contando quantos usuários existem e atualizando número no card..
 
 
         // VAGAS
         const responseVagas =
-            await fetch("http://localhost:8080/vagas");
+            await fetch("http://localhost:8080/vagas"); //Fazendo requisição HTTP
 
         const vagas =
-            await responseVagas.json();
+            await responseVagas.json(); // Convertendo resposta em objeto JavaScript.
 
         document.getElementById("totalVagas")
             .innerText = vagas.length;
