@@ -1,0 +1,22 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f6fa;
+}
+
+/* Sidebar */
+.sidebar {
+    min-height: 100vh;
+    background-color: white;
+    border-right: 1px solid #ddd;
+}
+
+/* Links menu */
+.sidebar a {
+    text-decoration: none;
+    margin-bottom: 10px;
+}
+
+/* Cards */
+.card {
+    border-radius: 12px;
+}

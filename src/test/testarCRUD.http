@@ -1,9 +1,10 @@
-POST http://localhost:8080/usuarios
+
+POST http://localhost:8080/vagas
 Content-Type: application/json
 
 {
-  "nome": "Maria del Rosario Queiroz",
-  "email": "maria@email.com",
-  "senha": "SenhaMuitoForte123",
-  "perfil": "ALUNO"
+  "titulo": "Estágio Backend Java",
+  "descricao": "Desenvolvimento de APIs REST com Spring Boot",
+  "empresa": "Alfa Soft Engenharia",
+  "cargaHoraria": -1
 }
