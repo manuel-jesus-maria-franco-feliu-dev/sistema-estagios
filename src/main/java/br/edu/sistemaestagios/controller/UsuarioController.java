@@ -61,8 +61,41 @@ public class UsuarioController {
 
     // ATUALIZAR USUARIOS (PUT)
     @PutMapping("/{id}")
-    public Usuario atualizarUsuario(@PathVariable Long id, @RequestBody Usuario usuario) {
+    public Usuario atualizarUsuario(
+            @PathVariable Long id,
+            @RequestBody Usuario usuario
+    ) {
+
+        if(usuario.getNome() == null ||
+                usuario.getNome().trim().isEmpty()) {
+
+            throw new RuntimeException(
+                    "Nome é obrigatório"
+            );
+
+        }
+
+        if(usuario.getSenha() == null ||
+                usuario.getSenha().length() < 8) {
+
+            throw new RuntimeException(
+                    "Senha deve ter no mínimo 8 caracteres"
+            );
+
+        }
+
+        if(usuario.getEmail() == null ||
+                !usuario.getEmail().contains("@")) {
+
+            throw new RuntimeException(
+                    "Email inválido"
+            );
+
+        }
+
         usuario.setId(id);
+
         return usuarioRepository.save(usuario);
+
     }
 }
