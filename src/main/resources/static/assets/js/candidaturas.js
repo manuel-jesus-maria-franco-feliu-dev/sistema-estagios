@@ -20,24 +20,21 @@ fetch("../components/footer.html")
 //
 
 const API_CANDIDATURAS = 'http://localhost:8080/candidaturas';
-const API_USUARIOS = 'http://localhost:8080/usuarios';
-const API_VAGAS = 'http://localhost:8080/vagas';
+const API_ALUNOS = 'http://localhost:8080/alunos';
+const API_ESTAGIOS = 'http://localhost:8080/estagios';
 
 
 //
-// CARREGAR ALUNOS NO SELECT (filtrar de usuários)
+// CARREGAR ALUNOS NO SELECT
 //
 
 async function carregarAlunos() {
     try {
-        const response = await fetch(API_USUARIOS);
-        const usuarios = await response.json();
+        const response = await fetch(API_ALUNOS);
+        const alunos = await response.json();
 
         const select = document.getElementById("alunoId");
         select.innerHTML = '<option value="">Selecione o aluno...</option>';
-
-        // Filtrar apenas usuários com perfil ALUNO
-        const alunos = usuarios.filter(u => u.perfil === "ALUNO");
 
         if (alunos.length === 0) {
             select.innerHTML += '<option value="" disabled>Nenhum aluno cadastrado</option>';
@@ -61,34 +58,34 @@ async function carregarAlunos() {
 
 
 //
-// CARREGAR VAGAS NO SELECT
+// CARREGAR ESTÁGIOS NO SELECT
 //
 
-async function carregarVagas() {
+async function carregarEstagios() {
     try {
-        const response = await fetch(API_VAGAS);
-        const vagas = await response.json();
+        const response = await fetch(API_ESTAGIOS);
+        const estagios = await response.json();
 
         const select = document.getElementById("estagioId");
-        select.innerHTML = '<option value="">Selecione a vaga...</option>';
+        select.innerHTML = '<option value="">Selecione o estágio...</option>';
 
-        if (vagas.length === 0) {
-            select.innerHTML += '<option value="" disabled>Nenhuma vaga cadastrada</option>';
+        if (estagios.length === 0) {
+            select.innerHTML += '<option value="" disabled>Nenhum estágio cadastrado</option>';
             return;
         }
 
-        vagas.forEach(vaga => {
+        estagios.forEach(estagio => {
             select.innerHTML += `
-                <option value="${vaga.id}">
-                    ${vaga.titulo || vaga.nome || 'Vaga ' + vaga.id} - ${vaga.empresa || 'Sem empresa'}
+                <option value="${estagio.id}">
+                    ${estagio.titulo || estagio.nome || 'Estágio ' + estagio.id}
                 </option>
             `;
         });
 
     } catch (error) {
-        console.error("Erro ao carregar vagas:", error);
+        console.error("Erro ao carregar estágios:", error);
         document.getElementById("estagioId").innerHTML = 
-            '<option value="" disabled>Erro ao carregar vagas</option>';
+            '<option value="" disabled>Erro ao carregar estágios</option>';
     }
 }
 
@@ -127,8 +124,8 @@ async function carregarCandidaturas() {
                 <tr>
                     <td class="fw-bold">${c.id}</td>
                     <td>${c.aluno?.nome || 'N/A'}</td>
-                    <td>${c.estagio?.titulo || c.vaga?.titulo || 'N/A'}</td>
-                    <td>${c.estagio?.empresa || c.vaga?.empresa || 'N/A'}</td>
+                    <td>${c.estagio?.titulo || 'N/A'}</td>
+                    <td>${c.estagio?.empresa || 'N/A'}</td>
                     <td><span class="badge ${badgeClass}">${c.status}</span></td>
                     <td>${c.dataCandidatura || 'N/A'}</td>
                     <td class="text-center">
@@ -184,7 +181,7 @@ document.getElementById("formCandidatura")
         }
 
         if (isNaN(candidatura.estagioId) || candidatura.estagioId <= 0) {
-            alert("Selecione uma vaga válida!");
+            alert("Selecione um estágio válido!");
             return;
         }
 
@@ -296,6 +293,6 @@ async function excluirCandidatura(id) {
 
 document.addEventListener('DOMContentLoaded', () => {
     carregarAlunos();
-    carregarVagas();
+    carregarEstagios();
     carregarCandidaturas();
 });
