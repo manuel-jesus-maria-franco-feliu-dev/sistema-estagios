@@ -1,5 +1,6 @@
 package br.edu.sistemaestagios.model;
 import jakarta.persistence.*;
+import br.edu.sistemaestagios.model.enums.StatusVaga;
 
 @Entity
 public class Vaga {

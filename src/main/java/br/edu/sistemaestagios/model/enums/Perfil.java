@@ -1,4 +1,4 @@
-package br.edu.sistemaestagios.model;
+package br.edu.sistemaestagios.model.enums;
 
 
 public enum Perfil {

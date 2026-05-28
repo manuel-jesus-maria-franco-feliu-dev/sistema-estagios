@@ -1,5 +1,6 @@
 package br.edu.sistemaestagios.model;
 
+import br.edu.sistemaestagios.model.enums.Perfil;
 import jakarta.persistence.*;
 
 
