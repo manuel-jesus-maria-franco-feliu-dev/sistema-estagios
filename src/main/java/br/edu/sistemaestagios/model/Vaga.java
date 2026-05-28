@@ -5,13 +5,17 @@ import jakarta.persistence.*;
 public class Vaga {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String titulo;
+
     private String descricao;
-    private String empresa;
+
     private Integer cargaHoraria;
-    private boolean ativa;
+
+    @Enumerated(EnumType.STRING)
+    private StatusVaga status;
 
     public Long getId() {
         return id;
@@ -37,14 +41,6 @@ public class Vaga {
         this.descricao = descricao;
     }
 
-    public String getEmpresa() {
-        return empresa;
-    }
-
-    public void setEmpresa(String empresa) {
-        this.empresa = empresa;
-    }
-
     public Integer getCargaHoraria() {
         return cargaHoraria;
     }
@@ -53,11 +49,11 @@ public class Vaga {
         this.cargaHoraria = cargaHoraria;
     }
 
-    public boolean isAtiva() {
-        return ativa;
+    public StatusVaga getStatus() {
+        return status;
     }
 
-    public void setAtiva(boolean ativa) {
-        this.ativa = ativa;
+    public void setStatus(StatusVaga status) {
+        this.status = status;
     }
 }

@@ -1,10 +1,1 @@
-
-POST http://localhost:8080/vagas
-Content-Type: application/json
-
-{
-  "titulo": "Estágio Backend Java",
-  "descricao": "Desenvolvimento de APIs REST com Spring Boot",
-  "empresa": "Alfa Soft Engenharia",
-  "cargaHoraria": -1
-}
+GET http://localhost:8080/usuarios

@@ -1,6 +1,7 @@
 package br.edu.sistemaestagios.model;
 
 public enum StatusEstagio {
-    ATIVO,
-    INATIVO,
+    PENDENTE,
+    APROVADO,
+    REPROVADO
 }
