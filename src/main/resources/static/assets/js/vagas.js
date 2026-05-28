@@ -1,3 +1,4 @@
+
 //
 // COMPONENTES
 //
@@ -16,286 +17,374 @@ fetch("../components/footer.html")
 
 
 //
-// CONFIGURAÇÃO DAS APIs
+// API
 //
 
-const API_CANDIDATURAS = 'http://localhost:8080/candidaturas';
-const API_USUARIOS = 'http://localhost:8080/usuarios';
-const API_VAGAS = 'http://localhost:8080/vagas';
-
-
-//
-// CARREGAR ALUNOS NO SELECT (filtrar de usuários)
-//
-
-async function carregarAlunos() {
-    try {
-        const response = await fetch(API_USUARIOS);
-        const usuarios = await response.json();
-
-        const select = document.getElementById("alunoId");
-        select.innerHTML = '<option value="">Selecione o aluno...</option>';
-
-        // Filtrar apenas usuários com perfil ALUNO
-        const alunos = usuarios.filter(u => u.perfil === "ALUNO");
-
-        if (alunos.length === 0) {
-            select.innerHTML += '<option value="" disabled>Nenhum aluno cadastrado</option>';
-            return;
-        }
-
-        alunos.forEach(aluno => {
-            select.innerHTML += `
-                <option value="${aluno.id}">
-                    ${aluno.nome}
-                </option>
-            `;
-        });
-
-    } catch (error) {
-        console.error("Erro ao carregar alunos:", error);
-        document.getElementById("alunoId").innerHTML = 
-            '<option value="" disabled>Erro ao carregar alunos</option>';
-    }
-}
+const API_VAGAS =
+    "http://localhost:8080/vagas";
 
 
 //
-// CARREGAR VAGAS NO SELECT
+// LISTAR VAGAS
 //
 
 async function carregarVagas() {
+
     try {
-        const response = await fetch(API_VAGAS);
-        const vagas = await response.json();
 
-        const select = document.getElementById("estagioId");
-        select.innerHTML = '<option value="">Selecione a vaga...</option>';
+        const response =
+            await fetch(API_VAGAS);
 
-        if (vagas.length === 0) {
-            select.innerHTML += '<option value="" disabled>Nenhuma vaga cadastrada</option>';
+        const vagas =
+            await response.json();
+
+        const tabela =
+            document.getElementById("tabelaVagas");
+
+        tabela.innerHTML = "";
+
+        if(vagas.length === 0) {
+
+            tabela.innerHTML = `
+
+                <tr>
+
+                    <td colspan="6"
+                        class="text-center">
+
+                        Nenhuma vaga cadastrada
+
+                    </td>
+
+                </tr>
+
+            `;
+
             return;
+
         }
 
         vagas.forEach(vaga => {
-            select.innerHTML += `
-                <option value="${vaga.id}">
-                    ${vaga.titulo || vaga.nome || 'Vaga ' + vaga.id} - ${vaga.empresa || 'Sem empresa'}
-                </option>
-            `;
-        });
 
-    } catch (error) {
-        console.error("Erro ao carregar vagas:", error);
-        document.getElementById("estagioId").innerHTML = 
-            '<option value="" disabled>Erro ao carregar vagas</option>';
-    }
-}
+            let badgeClass = "bg-success";
 
+            if(vaga.status === "EM_ANALISE") {
 
-//
-// LISTAR CANDIDATURAS
-//
+                badgeClass = "bg-warning text-dark";
 
-async function carregarCandidaturas() {
-    try {
-        const response = await fetch(API_CANDIDATURAS);
-        const candidaturas = await response.json();
+            }
 
-        const tabela = document.getElementById("tabelaCandidaturas");
-        tabela.innerHTML = "";
+            if(vaga.status === "FECHADA") {
 
-        if (candidaturas.length === 0) {
-            tabela.innerHTML = `
-                <tr>
-                    <td colspan="7" class="text-center text-muted py-4">
-                        Nenhuma candidatura encontrada
-                    </td>
-                </tr>
-            `;
-            return;
-        }
+                badgeClass = "bg-danger";
 
-        candidaturas.forEach(c => {
-            const badgeClass = {
-                'PENDENTE': 'bg-warning text-dark',
-                'APROVADO': 'bg-success',
-                'REPROVADO': 'bg-danger'
-            }[c.status] || 'bg-secondary';
+            }
 
             tabela.innerHTML += `
+
                 <tr>
-                    <td class="fw-bold">${c.id}</td>
-                    <td>${c.aluno?.nome || 'N/A'}</td>
-                    <td>${c.estagio?.titulo || c.vaga?.titulo || 'N/A'}</td>
-                    <td>${c.estagio?.empresa || c.vaga?.empresa || 'N/A'}</td>
-                    <td><span class="badge ${badgeClass}">${c.status}</span></td>
-                    <td>${c.dataCandidatura || 'N/A'}</td>
-                    <td class="text-center">
-                        ${c.status === 'PENDENTE' ? `
-                            <button class="btn btn-success btn-sm me-1" onclick="atualizarStatus(${c.id}, 'APROVADO')" title="Aprovar">
-                                <i class="bi bi-check-lg"></i>
-                            </button>
-                            <button class="btn btn-danger btn-sm me-1" onclick="atualizarStatus(${c.id}, 'REPROVADO')" title="Reprovar">
-                                <i class="bi bi-x-lg"></i>
-                            </button>
-                        ` : ''}
-                        <button class="btn btn-danger btn-sm" onclick="excluirCandidatura(${c.id})" title="Excluir">
-                            <i class="bi bi-trash"></i>
-                        </button>
+
+                    <td>${vaga.id}</td>
+
+                    <td>${vaga.titulo}</td>
+
+                    <td>${vaga.descricao}</td>
+
+                    <td>${vaga.cargaHoraria}h</td>
+
+                    <td>
+
+                        <span class="badge ${badgeClass}">
+
+                            ${vaga.status}
+
+                        </span>
+
                     </td>
+
+                    <td>
+
+                        <button
+                            class="btn btn-warning btn-sm me-2"
+                            onclick="editarVaga(${vaga.id})">
+
+                            Editar
+
+                        </button>
+
+                        <button
+                            class="btn btn-danger btn-sm"
+                            onclick="excluirVaga(${vaga.id})">
+
+                            Excluir
+
+                        </button>
+
+                    </td>
+
                 </tr>
+
             `;
+
         });
 
-    } catch (error) {
-        console.error("Erro ao carregar candidaturas:", error);
     }
+
+    catch(error) {
+
+        console.error(
+            "Erro ao carregar vagas:",
+            error
+        );
+
+    }
+
 }
 
+carregarVagas();
+
 
 //
-// CADASTRAR / EDITAR CANDIDATURA
+// CADASTRAR / EDITAR VAGA
 //
 
-document.getElementById("formCandidatura")
+document.getElementById("formVaga")
     .addEventListener("submit", async function(event) {
 
         event.preventDefault();
 
-        // ID OCULTO
-        const candidaturaId =
-            document.getElementById("candidaturaId").value;
+        const vagaId =
+            document.getElementById("vagaId").value;
 
-        // OBJETO - COM parseInt PARA GARANTIR NÚMEROS
-        const candidatura = {
-            alunoId: parseInt(document.getElementById("alunoId").value),
-            estagioId: parseInt(document.getElementById("estagioId").value),
-            observacao: document.getElementById("observacao").value
+        const vaga = {
+
+            titulo:
+                document.getElementById("titulo").value,
+
+            descricao:
+                document.getElementById("descricao").value,
+
+            cargaHoraria:
+                parseInt(
+                    document.getElementById("cargaHoraria").value
+                ),
+
+            status:
+                document.getElementById("status").value
+
         };
 
         //
-        // VALIDAÇÃO FRONTEND
+        // VALIDAÇÕES
         //
 
-        if (isNaN(candidatura.alunoId) || candidatura.alunoId <= 0) {
-            alert("Selecione um aluno válido!");
+        if(vaga.titulo.trim() === "") {
+
+            alert("Título obrigatório");
+
             return;
+
         }
 
-        if (isNaN(candidatura.estagioId) || candidatura.estagioId <= 0) {
-            alert("Selecione uma vaga válida!");
+        if(vaga.cargaHoraria <= 0) {
+
+            alert("Carga horária inválida");
+
             return;
+
         }
 
         try {
-            const response = await fetch(
-                candidaturaId
-                    ? `${API_CANDIDATURAS}/${candidaturaId}`
-                    : API_CANDIDATURAS,
-                {
-                    method: candidaturaId ? "PUT" : "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(candidatura)
-                }
-            );
 
-            if (response.ok) {
-                alert(
-                    candidaturaId
-                        ? "Candidatura atualizada com sucesso!"
-                        : "Candidatura cadastrada com sucesso!"
+            const response =
+                await fetch(
+
+                    vagaId
+                        ? `${API_VAGAS}/${vagaId}`
+                        : API_VAGAS,
+
+                    {
+
+                        method:
+                            vagaId ? "PUT" : "POST",
+
+                        headers: {
+
+                            "Content-Type":
+                                "application/json"
+
+                        },
+
+                        body:
+                            JSON.stringify(vaga)
+
+                    }
+
                 );
 
-                carregarCandidaturas();
-                document.getElementById("formCandidatura").reset();
-                document.getElementById("candidaturaId").value = "";
+            if(response.ok) {
 
-                // FECHAR MODAL
+                alert(
+
+                    vagaId
+                        ? "Vaga atualizada com sucesso!"
+                        : "Vaga cadastrada com sucesso!"
+
+                );
+
+                carregarVagas();
+
+                document.getElementById("formVaga")
+                    .reset();
+
+                document.getElementById("vagaId")
+                    .value = "";
+
                 const modal =
                     bootstrap.Modal.getInstance(
-                        document.getElementById("modalCandidatura")
+                        document.getElementById("modalVaga")
                     );
 
                 modal.hide();
 
-            } else {
-                const erro = await response.json();
-                alert(erro.erro || "Erro ao salvar candidatura");
             }
 
-        } catch (error) {
+            else {
+
+                const erro =
+                    await response.text();
+
+                console.error(erro);
+
+                alert("Erro ao salvar vaga");
+
+            }
+
+        }
+
+        catch(error) {
+
             console.error(error);
+
             alert("Erro ao conectar com API");
+
         }
 
     });
 
 
 //
-// ATUALIZAR STATUS (APROVAR/REPROVAR)
+// EXCLUIR VAGA
 //
 
-async function atualizarStatus(id, status) {
-    const confirmar = confirm(`Deseja ${status === 'APROVADO' ? 'APROVAR' : 'REPROVAR'} esta candidatura?`);
-    if (!confirmar) return;
+async function excluirVaga(id) {
+
+    const confirmar =
+        confirm(
+            "Deseja realmente excluir esta vaga?"
+        );
+
+    if(!confirmar) {
+
+        return;
+
+    }
 
     try {
-        const response = await fetch(`${API_CANDIDATURAS}/${id}/status`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ status: status })
-        });
 
-        if (response.ok) {
-            alert(`Candidatura ${status.toLowerCase()} com sucesso!`);
-            carregarCandidaturas();
-        } else {
-            alert("Erro ao atualizar status");
+        const response =
+            await fetch(
+
+                `${API_VAGAS}/${id}`,
+
+                {
+                    method: "DELETE"
+                }
+
+            );
+
+        if(response.ok) {
+
+            alert(
+                "Vaga excluída com sucesso!"
+            );
+
+            carregarVagas();
+
         }
 
-    } catch (error) {
-        console.error(error);
-        alert("Erro ao conectar com API");
+        else {
+
+            alert(
+                "Erro ao excluir vaga"
+            );
+
+        }
+
     }
+
+    catch(error) {
+
+        console.error(error);
+
+        alert(
+            "Erro ao conectar com API"
+        );
+
+    }
+
 }
 
 
 //
-// EXCLUIR CANDIDATURA
+// EDITAR VAGA
 //
 
-async function excluirCandidatura(id) {
-    const confirmar = confirm("Deseja realmente excluir esta candidatura?");
-    if (!confirmar) return;
+async function editarVaga(id) {
 
     try {
-        const response = await fetch(`${API_CANDIDATURAS}/${id}`, {
-            method: "DELETE"
-        });
 
-        if (response.ok) {
-            alert("Candidatura excluída com sucesso!");
-            carregarCandidaturas();
-        } else {
-            alert("Erro ao excluir candidatura");
-        }
+        const response =
+            await fetch(
+                `${API_VAGAS}/${id}`
+            );
 
-    } catch (error) {
-        console.error(error);
-        alert("Erro ao conectar com API");
+        const vaga =
+            await response.json();
+
+        document.getElementById("vagaId").value =
+            vaga.id;
+
+        document.getElementById("titulo").value =
+            vaga.titulo;
+
+        document.getElementById("descricao").value =
+            vaga.descricao;
+
+        document.getElementById("cargaHoraria").value =
+            vaga.cargaHoraria;
+
+        document.getElementById("status").value =
+            vaga.status;
+
+        const modal =
+            new bootstrap.Modal(
+                document.getElementById("modalVaga")
+            );
+
+        modal.show();
+
     }
+
+    catch(error) {
+
+        console.error(error);
+
+        alert(
+            "Erro ao carregar vaga"
+        );
+
+    }
+
 }
 
-
-//
-// INICIALIZAR
-//
-
-document.addEventListener('DOMContentLoaded', () => {
-    carregarAlunos();
-    carregarVagas();
-    carregarCandidaturas();
-});

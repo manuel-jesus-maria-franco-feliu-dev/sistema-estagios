@@ -1,0 +1,324 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Gestão de Vagas</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet"
+          href="../assets/css/style.css">
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div id="navbar"></div>
+
+
+<div class="container-fluid">
+
+    <div class="row">
+
+        <!-- SIDEBAR -->
+        <div class="col-md-2 sidebar p-3">
+
+            <h4 class="mb-4">
+
+                Menu
+
+            </h4>
+
+            <div class="d-grid gap-2">
+
+                <a href="dashboard.html"
+                   class="btn btn-outline-primary">
+
+                    Dashboard
+
+                </a>
+
+                <a href="usuarios.html"
+                   class="btn btn-outline-secondary">
+
+                    Usuários
+
+                </a>
+
+                <a href="vagas.html"
+                   class="btn btn-outline-success active">
+
+                    Vagas
+
+                </a>
+
+                <a href="candidaturas.html"
+                   class="btn btn-outline-warning">
+
+                    Candidaturas
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- CONTEÚDO -->
+        <div class="col-md-10 p-4">
+
+            <!-- TOPO -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+
+                <h2>
+
+                    Gestão de Vagas
+
+                </h2>
+
+                <button
+                    class="btn btn-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modalVaga">
+
+                    Nova Vaga
+
+                </button>
+
+            </div>
+
+
+            <!-- CARD -->
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body">
+
+                    <div class="table-responsive">
+
+                        <table class="table table-hover align-middle">
+
+                            <thead class="table-dark">
+
+                            <tr>
+
+                                <th>ID</th>
+                                <th>Título</th>
+                                <th>Descrição</th>
+                                <th>Carga Horária</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+
+                            </tr>
+
+                            </thead>
+
+                            <tbody id="tabelaVagas">
+
+                            <!-- JAVASCRIPT -->
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- MODAL -->
+<div class="modal fade"
+     id="modalVaga"
+     tabindex="-1">
+
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+
+            <!-- HEADER -->
+            <div class="modal-header">
+
+                <h5 class="modal-title">
+
+                    Cadastro de Vaga
+
+                </h5>
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal">
+
+                </button>
+
+            </div>
+
+
+            <!-- BODY -->
+            <div class="modal-body">
+
+                <form id="formVaga">
+
+                    <!-- ID OCULTO -->
+                    <input type="hidden"
+                           id="vagaId">
+
+
+                    <!-- TÍTULO -->
+                    <div class="mb-3">
+
+                        <label class="form-label">
+
+                            Título
+
+                        </label>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="titulo"
+                            required>
+
+                    </div>
+
+
+                    <!-- DESCRIÇÃO -->
+                    <div class="mb-3">
+
+                        <label class="form-label">
+
+                            Descrição
+
+                        </label>
+
+                        <textarea
+                            class="form-control"
+                            id="descricao"
+                            rows="4"
+                            required>
+
+                        </textarea>
+
+                    </div>
+
+
+                    <!-- CARGA HORÁRIA -->
+                    <div class="mb-3">
+
+                        <label class="form-label">
+
+                            Carga Horária
+
+                        </label>
+
+                        <input
+                            type="number"
+                            class="form-control"
+                            id="cargaHoraria"
+                            required>
+
+                    </div>
+
+
+                    <!-- STATUS -->
+                    <div class="mb-3">
+
+                        <label class="form-label">
+
+                            Status
+
+                        </label>
+
+                        <select
+                            class="form-select"
+                            id="status"
+                            required>
+
+                            <option value="ABERTA">
+
+                                ABERTA
+
+                            </option>
+
+                            <option value="EM_ANALISE">
+
+                                EM ANÁLISE
+
+                            </option>
+
+                            <option value="FECHADA">
+
+                                FECHADA
+
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- BOTÕES -->
+                    <div class="d-flex justify-content-end gap-2">
+
+                        <button
+                            type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal">
+
+                            Cancelar
+
+                        </button>
+
+                        <button
+                            type="submit"
+                            class="btn btn-success">
+
+                            Salvar
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- FOOTER -->
+<div id="footer"></div>
+
+
+<!-- Bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- JS -->
+<script src="../assets/js/vagas.js"></script>
+
+</body>
+
+</html>
+
