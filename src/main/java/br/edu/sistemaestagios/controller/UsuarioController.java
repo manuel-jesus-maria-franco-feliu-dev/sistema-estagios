@@ -22,7 +22,7 @@ public class UsuarioController {
         //VALIDAÇÃO DO NOME
 
         if(usuario.getNome()== null || usuario.getNome().trim().isEmpty()){
-            throw new RuntimeException("Nome é obrigatório");
+            throw new RuntimeException("O nome do usuário é obrigatório");
         }
 
         //VALIDAÇÃO DA SENHA

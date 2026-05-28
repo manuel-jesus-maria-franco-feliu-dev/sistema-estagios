@@ -15,7 +15,7 @@ public class Estagio {
 
     private Integer cargaHoraria;
 
-    private String status; // ABERTO ou FECHADO
+    private String status;
 
     public Long getId() {
         return id;
