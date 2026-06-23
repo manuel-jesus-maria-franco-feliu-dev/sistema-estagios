@@ -339,3 +339,95 @@ footer {
         padding: 30px;
     }
 }
+
+
+/* --- Sistema de Inputs Flutuantes --- */
+.form-outline,
+.select-outline {
+  position: relative;
+  margin-bottom: 1.2rem;
+}
+
+/* Input base */
+.form-outline .form-control,
+.select-outline .form-control {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+/* Foco no input */
+.form-outline .form-control:focus,
+.select-outline .form-control:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  background-color: #fff;
+}
+
+/* Label em estado de repouso (dentro do input) */
+.form-outline .form-control + label,
+.select-outline .form-control + label {
+  position: absolute;
+  top: 50%;
+  left: 1.2rem;
+  transform: translateY(-50%);
+  font-size: 1rem;
+  color: #6c757d;
+  pointer-events: none;
+  transition: all 0.2s ease-in-out;
+  background-color: transparent;
+}
+
+/* Label Flutuante (Quando ativo/focado/com valor) */
+.form-outline .form-control:focus + label,
+.form-outline .form-control:not(:placeholder-shown) + label,
+.form-outline .form-control:valid + label,
+.form-outline .form-control.is-valid + label,
+.form-outline .form-control.is-invalid + label,
+.form-outline .form-control.has-value + label,
+.select-outline .form-control:focus + label,
+.select-outline .form-control:not(:placeholder-shown) + label,
+.select-outline .form-control:valid + label,
+.select-outline .form-control.is-valid + label,
+.select-outline .form-control.is-invalid + label,
+.select-outline .form-control.has-value + label {
+  top: -0.7rem;
+  left: 0.6rem;
+  font-size: 0.7rem;
+  color: #0d6efd;
+  background-color: #fff;
+  padding: 0 0.25rem;
+  transform: none;
+}
+
+/* --- Classes Utilitárias --- */
+.nowrap-text {
+  white-space: nowrap;
+  font-size: clamp(0.8rem, 1.7vw, 0.85rem) !important;
+}
+
+.bg-save {
+  background-color: #669495;
+  transition: all 0.2s ease; /* Adicionado para suavizar o hover */
+}
+
+.bg-save:hover {
+  color: #669495 !important;
+  border-color: #669495;
+  background-color: #fff;
+}
+
+.fs-7 {
+  font-size: 0.75rem !important;
+}
+
+.logo {
+  width: 35px;
+  height: 35px;
+}
+
+.google {
+  width: 16px;
+  height: 16px;
+}

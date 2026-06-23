@@ -1,7 +1,6 @@
 //
-// COMPONENTES
+// COMPONENTES (Navbar e Footer)
 //
-
 fetch("../components/navbar.html")
     .then(response => response.text())
     .then(data => {
@@ -14,20 +13,16 @@ fetch("../components/footer.html")
         document.getElementById("footer").innerHTML = data;
     });
 
-
 //
 // CONFIGURAÇÃO DAS APIs
 //
-
 const API_CANDIDATURAS = 'http://localhost:8080/candidaturas';
-const API_ALUNOS = 'http://localhost:8080/alunos';
-const API_ESTAGIOS = 'http://localhost:8080/estagios';
-
+const API_ALUNOS = 'http://localhost:8080/usuarios';
+const API_ESTAGIOS = 'http://localhost:8080/vagas';
 
 //
 // CARREGAR ALUNOS NO SELECT
 //
-
 async function carregarAlunos() {
     try {
         const response = await fetch(API_ALUNOS);
@@ -48,7 +43,6 @@ async function carregarAlunos() {
                 </option>
             `;
         });
-
     } catch (error) {
         console.error("Erro ao carregar alunos:", error);
         document.getElementById("alunoId").innerHTML = 
@@ -56,11 +50,9 @@ async function carregarAlunos() {
     }
 }
 
-
 //
 // CARREGAR ESTÁGIOS NO SELECT
 //
-
 async function carregarEstagios() {
     try {
         const response = await fetch(API_ESTAGIOS);
@@ -81,7 +73,6 @@ async function carregarEstagios() {
                 </option>
             `;
         });
-
     } catch (error) {
         console.error("Erro ao carregar estágios:", error);
         document.getElementById("estagioId").innerHTML = 
@@ -89,11 +80,9 @@ async function carregarEstagios() {
     }
 }
 
-
 //
 // LISTAR CANDIDATURAS
 //
-
 async function carregarCandidaturas() {
     try {
         const response = await fetch(API_CANDIDATURAS);
@@ -144,97 +133,74 @@ async function carregarCandidaturas() {
                 </tr>
             `;
         });
-
     } catch (error) {
         console.error("Erro ao carregar candidaturas:", error);
     }
 }
 
-
 //
 // CADASTRAR / EDITAR CANDIDATURA
 //
+document.getElementById("formCandidatura").addEventListener("submit", async function(event) {
+    event.preventDefault();
 
-document.getElementById("formCandidatura")
-    .addEventListener("submit", async function(event) {
+    // Captura os valores dos selects populados pelas funções acima
+    const alunoIdSelecionado = document.getElementById("alunoId").value; 
+    const vagaIdSelecionada = document.getElementById("estagioId").value;
+    
+    // Captura o campo de observação caso exista na sua modal do HTML
+    const campoObservacao = document.getElementById("observacao");
+    const observacaoTexto = campoObservacao ? campoObservacao.value : "";
 
-        event.preventDefault();
+    // Validação de segurança antes de disparar o fetch
+    if (!alunoIdSelecionado || !vagaIdSelecionada) {
+        alert("Por favor, selecione um aluno e uma vaga.");
+        return;
+    }
 
-        // ID OCULTO
-        const candidaturaId =
-            document.getElementById("candidaturaId").value;
+    // JSON plano correspondente ao Map<String, Object> que o Java espera
+    const candidatura = {
+        alunoId: parseInt(alunoIdSelecionado),
+        estagioId: parseInt(vagaIdSelecionada),
+        observacao: observacaoTexto
+    };
 
-        // OBJETO - COM parseInt PARA GARANTIR NÚMEROS
-        const candidatura = {
-            alunoId: parseInt(document.getElementById("alunoId").value),
-            estagioId: parseInt(document.getElementById("estagioId").value),
-            observacao: document.getElementById("observacao").value
-        };
+    try {
+        const response = await fetch(API_CANDIDATURAS, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(candidatura)
+        });
 
-        //
-        // VALIDAÇÃO FRONTEND
-        //
-
-        if (isNaN(candidatura.alunoId) || candidatura.alunoId <= 0) {
-            alert("Selecione um aluno válido!");
-            return;
+        if (response.ok) {
+            alert("Candidatura salva com sucesso!");
+            
+            const modalElement = document.getElementById("modalCandidatura");
+            let modal = bootstrap.Modal.getInstance(modalElement);
+            if (modal) modal.hide();
+            
+            document.getElementById("formCandidatura").reset();
+            
+            // Recarrega a listagem dinamicamente na tela
+            carregarCandidaturas(); 
+             
+        } else {
+            const erroTexto = await response.text();
+            console.error("Resposta do servidor:", erroTexto);
+            alert("Erro ao salvar candidatura: " + erroTexto);
         }
 
-        if (isNaN(candidatura.estagioId) || candidatura.estagioId <= 0) {
-            alert("Selecione um estágio válido!");
-            return;
-        }
-
-        try {
-            const response = await fetch(
-                candidaturaId
-                    ? `${API_CANDIDATURAS}/${candidaturaId}`
-                    : API_CANDIDATURAS,
-                {
-                    method: candidaturaId ? "PUT" : "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(candidatura)
-                }
-            );
-
-            if (response.ok) {
-                alert(
-                    candidaturaId
-                        ? "Candidatura atualizada com sucesso!"
-                        : "Candidatura cadastrada com sucesso!"
-                );
-
-                carregarCandidaturas();
-                document.getElementById("formCandidatura").reset();
-                document.getElementById("candidaturaId").value = "";
-
-                // FECHAR MODAL
-                const modal =
-                    bootstrap.Modal.getInstance(
-                        document.getElementById("modalCandidatura")
-                    );
-
-                modal.hide();
-
-            } else {
-                const erro = await response.json();
-                alert(erro.erro || "Erro ao salvar candidatura");
-            }
-
-        } catch (error) {
-            console.error(error);
-            alert("Erro ao conectar com API");
-        }
-
-    });
-
+    } catch (error) {
+        console.error("Erro na requisição:", error);
+        alert("Erro ao conectar com o servidor.");
+    }
+});
 
 //
 // ATUALIZAR STATUS (APROVAR/REPROVAR)
 //
-
 async function atualizarStatus(id, status) {
     const confirmar = confirm(`Deseja ${status === 'APROVADO' ? 'APROVAR' : 'REPROVAR'} esta candidatura?`);
     if (!confirmar) return;
@@ -252,18 +218,15 @@ async function atualizarStatus(id, status) {
         } else {
             alert("Erro ao atualizar status");
         }
-
     } catch (error) {
         console.error(error);
         alert("Erro ao conectar com API");
     }
 }
 
-
 //
 // EXCLUIR CANDIDATURA
 //
-
 async function excluirCandidatura(id) {
     const confirmar = confirm("Deseja realmente excluir esta candidatura?");
     if (!confirmar) return;
@@ -279,18 +242,15 @@ async function excluirCandidatura(id) {
         } else {
             alert("Erro ao excluir candidatura");
         }
-
     } catch (error) {
         console.error(error);
         alert("Erro ao conectar com API");
     }
 }
 
-
 //
 // INICIALIZAR
 //
-
 document.addEventListener('DOMContentLoaded', () => {
     carregarAlunos();
     carregarEstagios();

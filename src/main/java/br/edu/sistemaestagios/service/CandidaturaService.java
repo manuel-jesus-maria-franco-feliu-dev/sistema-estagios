@@ -8,6 +8,8 @@ import br.edu.sistemaestagios.repository.AlunoRepository;
 import br.edu.sistemaestagios.repository.EstagioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import br.edu.sistemaestagios.repository.UsuarioRepository;
+import br.edu.sistemaestagios.model.Usuario;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -23,6 +25,9 @@ public class CandidaturaService {
 
     @Autowired
     private EstagioRepository estagioRepository;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     // Criar candidatura
     public Candidatura candidatar(Long alunoId, Long estagioId, String observacao) {
